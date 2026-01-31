@@ -1,4 +1,5 @@
 import allure from 'allure-commandline'
+import { generateAccessibilityReportIndex } from './test/helper/accessibility-checking.js'
 
 const debug = process.env.DEBUG
 const oneMinute = 60 * 1000
@@ -134,7 +135,7 @@ export const config = {
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  // services: [],
+  services: ['chromedriver'],
   //
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
@@ -312,6 +313,9 @@ export const config = {
    * @param {<Object>} results object containing test results
    */
   onComplete: function (exitCode, config, capabilities, results) {
+    // Generate accessibility report index
+    generateAccessibilityReportIndex()
+
     const reportError = new Error('Could not generate Allure report')
     const generation = allure(['generate', 'allure-results', '--clean'])
 
