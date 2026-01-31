@@ -14,7 +14,7 @@
     "components": "test/components"
   },
   "scripts": {
-    "clean": "rimraf allure-results && rimraf allure-report",
+    "clean": "rimraf allure-results && rimraf allure-report && rimraf reports",
     "test": "npm run clean && wdio run wdio.conf.js",
     "test:local": "npm run clean && wdio run wdio.local.conf.js",
     "test:local:debug": "npm run clean && DEBUG=true wdio run wdio.local.conf.js",
@@ -43,6 +43,11 @@
     "undici": "7.3.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "10.0.0",
+    "@wdio/logger": "9.18.0",
+    "axe-core": "4.10.3",
+    "chromedriver": "144.0.0",
+    "date-fns": "4.1.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-config-standard": "17.1.0",

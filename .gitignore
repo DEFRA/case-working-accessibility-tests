@@ -11,4 +11,5 @@ coverage
 .env
 allure-report/
 allure-results/
+reports/
 FAILED
