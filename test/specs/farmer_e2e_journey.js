@@ -13,6 +13,11 @@ import CwAllCasesPage from '../page-objects/cw.allcases.page.js'
 // import AgreementsAcceptYourOfferPage from '../page-objects/agreements.accept.your.offer.page.js'
 // import AgreementOfferAcceptedPage from '../page-objects/agreements.offer.accepted.page.js'
 // import { clearState } from '../utils/clear-sbi-state.js'
+import {
+  analyseAccessibility,
+  generateAccessibilityReports,
+  initialiseAccessibilityChecking
+} from '../helper/accessibility-checking.js'
 
 afterEach(async () => {
   // Clear all cookies after each test
@@ -20,6 +25,10 @@ afterEach(async () => {
 })
 
 describe('SFI Application E2E Tests', () => {
+  before(async () => {
+    await initialiseAccessibilityChecking()
+  })
+
   describe('Given farmer goes through the complete E2E journey', () => {
     it('Then the farmer is able to complete the SFI application', async () => {
       // const username = '1103313150'
@@ -40,7 +49,7 @@ describe('SFI Application E2E Tests', () => {
       // await browser.takeScreenshot()
       // console.log(`Application Reference Number:`, appRefNum)
       // // CW Approval Process
-      const appRefNum = 'case-ref-1768228753995-116044'
+      const appRefNum = 'case-ref-1768228755109-816310'
       await browser.url(browser.options.cwUrl)
       const cwUsername = process.env.ENTRA_ID_ADMIN_USER
       const cwPassword = process.env.ENTRA_ID_USER_PASSWORD
@@ -48,11 +57,22 @@ describe('SFI Application E2E Tests', () => {
       const isReferenceInTable = await CWHomePage.waitUntilVisible(appRefNum)
       await expect(isReferenceInTable).toBe(true)
       await browser.pause(2000)
+
+      // Accessibility check - All Cases page
+      await analyseAccessibility('CW All Cases Page')
+
       await CWHomePage.clickLinkByText(appRefNum)
       await browser.pause(5000)
 
+      // Accessibility check - Case Details/Tasks page
+      await analyseAccessibility('CW Case Details and Tasks Page')
+
       await CwTasksPage.clickButtonByText('Start')
       await CwTasksPage.completeTask('Check customer details')
+
+      // Accessibility check - After completing first task
+      await analyseAccessibility('CW After Customer Details Task')
+
       await CwTasksPage.completeTask('Review land parcel rule checks')
       await CwTasksPage.completeTask(
         'Check if any land parcels are within an SSSI'
@@ -62,11 +82,24 @@ describe('SFI Application E2E Tests', () => {
         'Review scheme budget as a finance officer'
       )
 
+      // Accessibility check - After completing all tasks
+      await analyseAccessibility('CW After All Tasks Completed')
+
       await CwTasksPage.approveCaseWithComments('APPROVE_APPLICATION')
 
       await browser.pause(5000)
+
+      // Accessibility check - Approval confirmation page
+      await analyseAccessibility('CW Approval Confirmation Page')
+
       await CwAllCasesPage.clickButtonByText('Confirm')
       await browser.pause(5000)
+
+      // Accessibility check - After case approved
+      await analyseAccessibility('CW After Case Approved')
+
+      // Generate accessibility reports
+      generateAccessibilityReports('case-working-e2e-journey')
 
       // await browser.refresh()
       // await CwTasksPage.waitForElement('Agreements')
