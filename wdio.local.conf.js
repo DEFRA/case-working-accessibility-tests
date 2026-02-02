@@ -1,8 +1,7 @@
-import allure from 'allure-commandline'
 import { generateAccessibilityReportIndex } from './test/helper/accessibility-checking.js'
+import { exec } from 'child_process'
 
 const debug = process.env.DEBUG
-const oneMinute = 60 * 1000
 const oneHour = 60 * 60 * 1000
 
 const execArgv = ['--loader', 'esm-module-alias/loader']
@@ -316,22 +315,13 @@ export const config = {
     // Generate accessibility report index
     generateAccessibilityReportIndex()
 
-    const reportError = new Error('Could not generate Allure report')
-    const generation = allure(['generate', 'allure-results', '--clean'])
-
-    return new Promise((resolve, reject) => {
-      const generationTimeout = setTimeout(() => reject(reportError), oneMinute)
-
-      generation.on('exit', function (exitCode) {
-        clearTimeout(generationTimeout)
-
-        if (exitCode !== 0) {
-          return reject(reportError)
-        }
-
-        allure(['open'])
-        resolve()
-      })
+    // Open accessibility report in browser
+    console.log('Opening accessibility report...')
+    exec('open reports/index.html', (error) => {
+      if (error) {
+        console.error('Could not open accessibility report:', error.message)
+        console.log('Please open reports/index.html manually in your browser')
+      }
     })
   }
 
