@@ -36,6 +36,7 @@ describe('SFI Application E2E Tests', () => {
         environment,
         'frps-private-beta'
       )
+      await browser.pause(5000)
       expect(apiResponse.statusCode).toBe(204)
       const appRefNum = apiResponse.clientRef
 
@@ -43,78 +44,78 @@ describe('SFI Application E2E Tests', () => {
 
       // CW Approval Process
       await browser.url(browser.options.cwUrl)
-      // const cwUsername = process.env.ENTRA_ID_WRITER_USER
-      // const cwPassword = process.env.ENTRA_ID_USER_PASSWORD
-      // await entraLogin(cwUsername, cwPassword)
-      // const isReferenceInTable = await CWHomePage.waitUntilVisible(appRefNum)
-      // await expect(isReferenceInTable).toBe(true)
-      // await browser.pause(2000)
+      const cwUsername = process.env.ENTRA_ID_WRITER_USER
+      const cwPassword = process.env.ENTRA_ID_USER_PASSWORD
+      await entraLogin(cwUsername, cwPassword)
+      const isReferenceInTable = await CWHomePage.waitUntilVisible(appRefNum)
+      await expect(isReferenceInTable).toBe(true)
+      await browser.pause(2000)
 
-      // // Accessibility check - All Cases page
-      // await analyseAccessibility('CW All Cases Page')
+      // Accessibility check - All Cases page
+      await analyseAccessibility('CW All Cases Page')
 
-      // await CWHomePage.clickLinkByText(appRefNum)
-      // await browser.pause(5000)
+      await CWHomePage.clickLinkByText(appRefNum)
+      await browser.pause(5000)
 
-      // // Accessibility check - Case Details/Tasks page
-      // await analyseAccessibility('CW Case Details and Tasks Page')
+      // Accessibility check - Case Details/Tasks page
+      await analyseAccessibility('CW Case Details and Tasks Page')
 
-      // await CwTasksPage.clickButtonByText('Start')
-      // await CwTasksPage.completeTask('Check customer details')
+      await CwTasksPage.clickButtonByText('Start')
+      await CwTasksPage.completeTask('Check customer details')
 
-      // // Accessibility check - After completing first task
-      // await analyseAccessibility('CW After Customer Details Task')
+      // Accessibility check - After completing first task
+      await analyseAccessibility('CW After Customer Details Task')
 
-      // await CwTasksPage.completeTask('Review land parcel rule checks')
-      // await CwTasksPage.completeTask(
-      //   'Check if any land parcels are within an SSSI'
-      // )
-      // await CwTasksPage.completeTask('Check payment amount')
-      // await CwTasksPage.completeTask(
-      //   'Review scheme budget as a finance officer'
-      // )
+      await CwTasksPage.completeTask('Review land parcel rule checks')
+      await CwTasksPage.completeTask(
+        'Check if any land parcels are within an SSSI'
+      )
+      await CwTasksPage.completeTask('Check payment amount')
+      await CwTasksPage.completeTask(
+        'Review scheme budget as a finance officer'
+      )
 
-      // // Accessibility check - After completing all tasks
-      // await analyseAccessibility('CW After All Tasks Completed')
+      // Accessibility check - After completing all tasks
+      await analyseAccessibility('CW After All Tasks Completed')
 
-      // await CwTasksPage.approveCaseWithComments('APPROVE_APPLICATION')
+      await CwTasksPage.approveCaseWithComments('APPROVE_APPLICATION')
 
-      // await browser.pause(5000)
+      await browser.pause(5000)
 
-      // // Accessibility check - Approval confirmation page
-      // await analyseAccessibility('CW Approval Confirmation Page')
+      // Accessibility check - Approval confirmation page
+      await analyseAccessibility('CW Approval Confirmation Page')
 
-      // await CwAllCasesPage.clickButtonByText('Confirm')
-      // await browser.pause(5000)
+      await CwAllCasesPage.clickButtonByText('Confirm')
+      await browser.pause(5000)
 
-      // // Accessibility check - After case approved
-      // await analyseAccessibility('CW After Case Approved')
+      // Accessibility check - After case approved
+      await analyseAccessibility('CW After Case Approved')
 
-      // await browser.refresh()
-      // await CwTasksPage.waitForElement('Agreements')
+      await browser.refresh()
+      await CwTasksPage.waitForElement('Agreements')
 
-      // await CwTasksPage.confirmTask('Check draft funding agreement')
-      // await CwTasksPage.confirmTask('Notify customer that agreement is ready')
+      await CwTasksPage.confirmTask('Check draft funding agreement')
+      await CwTasksPage.confirmTask('Notify customer that agreement is ready')
 
-      // await CwTasksPage.approveAgreement('AGREEMENT_SENT')
-      // await CwAllCasesPage.clickButtonByText('Confirm')
+      await CwTasksPage.approveAgreement('AGREEMENT_SENT')
+      await CwAllCasesPage.clickButtonByText('Confirm')
 
-      // const agreementsPageTitle = await CWAgreementsPage.headerH2()
-      // expect(agreementsPageTitle).toEqual('Customer Agreement Review')
-      // await analyseAccessibility('After agreement review')
+      const agreementsPageTitle = await CWAgreementsPage.headerH2()
+      expect(agreementsPageTitle).toEqual('Customer Agreement Review')
+      await analyseAccessibility('After agreement review')
 
-      // await CwTasksPage.clickLinkByText('Agreements')
+      await CwTasksPage.clickLinkByText('Agreements')
 
-      // const agreementIdInitialJourney =
-      //   await CWAgreementsPage.getFirstAgreementReferenceText()
-      // expect(await CWAgreementsPage.getFirstAgreementStatusText()).toBe(
-      //   'Offered'
-      // )
-      // await analyseAccessibility('On agreements page')
+      const agreementIdInitialJourney =
+        await CWAgreementsPage.getFirstAgreementReferenceText()
+      expect(await CWAgreementsPage.getFirstAgreementStatusText()).toBe(
+        'Offered'
+      )
+      await analyseAccessibility('On agreements page')
 
-      // await browser.takeScreenshot()
-      // await browser.pause(5000)
-      // console.log(`agreementId :`, agreementIdInitialJourney)
+      await browser.takeScreenshot()
+      await browser.pause(5000)
+      console.log(`agreementId :`, agreementIdInitialJourney)
     })
   })
 })
