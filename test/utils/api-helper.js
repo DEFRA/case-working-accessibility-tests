@@ -38,30 +38,55 @@ export async function createApplication(
   const wreck = Wreck.defaults({ headers })
 
   try {
-    console.log(`Creating application at: ${url}`)
-    console.log(`Using environment: ${environment}`)
+    console.log('========== API REQUEST START ==========')
+    console.log(`URL: ${url}`)
+    console.log(`Environment: ${environment}`)
+    console.log(`Running locally: ${isRunningLocally}`)
     console.log(`Client reference: ${generatedClientRef}`)
+    console.log(
+      `Headers:`,
+      JSON.stringify(
+        {
+          ...headers,
+          Authorization: headers.Authorization ? 'Bearer ***' : undefined,
+          'x-api-key': headers['x-api-key'] ? '***' : undefined
+        },
+        null,
+        2
+      )
+    )
     console.log(`Request payload:`, JSON.stringify(payload, null, 2))
+    console.log('=======================================')
 
     const { res, payload: responsePayload } = await wreck.post(url, {
       payload: JSON.stringify(payload)
     })
 
-    let responseBody = null
+    console.log('========== API RESPONSE START ==========')
+    console.log(`Status Code: ${res.statusCode}`)
+    console.log(`Status Message: ${res.statusMessage}`)
+    console.log(`Response Headers:`, JSON.stringify(res.headers, null, 2))
 
+    let responseBody = null
     const responseText = responsePayload?.toString?.().trim()
+    console.log(`Response Body (raw):`, responseText || '(empty)')
+
     if (responseText) {
       try {
         responseBody = JSON.parse(responseText)
+        console.log(
+          `Response Body (parsed):`,
+          JSON.stringify(responseBody, null, 2)
+        )
       } catch (err) {
-        console.warn('Response body is not valid JSON:', err)
+        console.warn('Response body is not valid JSON:', err.message)
       }
     }
 
-    console.log(
-      `Application created successfully with status: ${res.statusCode}`
-    )
+    console.log('========================================')
+    console.log(`Application created successfully`)
     console.log(`Application reference: ${generatedClientRef}`)
+
     return {
       statusCode: res.statusCode,
       body: responseBody,
