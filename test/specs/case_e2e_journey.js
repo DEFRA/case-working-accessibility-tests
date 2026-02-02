@@ -30,9 +30,14 @@ describe('SFI Application E2E Tests', () => {
   })
 
   describe('Given farmer goes through the complete E2E journey', () => {
+    after(async () => {
+      // Generate accessibility reports - runs even on test failure
+      generateAccessibilityReports('case-working-e2e-journey')
+    })
+
     it('Then the farmer is able to complete the SFI application', async () => {
       // // CW Approval Process
-      const appRefNum = 'case-ref-1768228757318-4517'
+      const appRefNum = 'case-ref-1768228758340-368650'
       await browser.url(browser.options.cwUrl)
       const cwUsername = process.env.ENTRA_ID_WRITER_USER
       const cwPassword = process.env.ENTRA_ID_USER_PASSWORD
@@ -80,9 +85,6 @@ describe('SFI Application E2E Tests', () => {
 
       // Accessibility check - After case approved
       await analyseAccessibility('CW After Case Approved')
-
-      // Generate accessibility reports
-      generateAccessibilityReports('case-working-e2e-journey')
 
       // await browser.refresh()
       // await CwTasksPage.waitForElement('Agreements')
