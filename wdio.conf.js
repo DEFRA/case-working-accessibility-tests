@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import { generateAccessibilityReportIndex } from './test/helper/accessibility-checking.js'
 
 const fiveMinute = 60 * 5 * 1000
 
@@ -242,6 +243,9 @@ export const config = {
    * @param {<Object>} results object containing test results
    */
   onComplete: function (exitCode, config, capabilities, results) {
+    // Generate accessibility report index
+    generateAccessibilityReportIndex()
+
     // !Do Not Remove! Required for test status to show correctly in portal.
     if (results?.failed && results.failed > 0) {
       fs.writeFileSync('FAILED', JSON.stringify(results))
