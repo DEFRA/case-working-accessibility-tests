@@ -4,6 +4,8 @@
     "sbi": "888000001",
     "frn": "{{random_frn}}",
     "crn": "9990000001",
+    "defraId": "DEFRA0001",
+    "createdAt": "{{current_datetime}}",
     "submittedAt": "{{current_datetime}}"
   },
   "answers": {
@@ -17,9 +19,12 @@
     "applicant": {
       "business": {
         "reference": "9990000099",
-        "email": "test-farm@example.test",
-        "mobilePhoneNumber": "02011223344",
-        "landlinePhoneNumber": "01235863957",
+        "email": {
+          "address": "test-farm@example.test"
+        },
+        "phone": {
+          "mobile": "02011223344"
+        },
         "name": "Test Farm Holdings",
         "address": {
           "line1": "1 Test Lane",

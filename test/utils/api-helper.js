@@ -8,7 +8,7 @@ export async function createApplication(
   grantName = 'frps-private-beta'
 ) {
   const payloadPath = `test/payloads/${grantName}.json`
-  const gasUrl = `https://fg-gas-backend.${environment}.cdp-int.defra.cloud/grants/`
+  const gasUrl = `https://ephemeral-protected.api.${environment}.cdp-int.defra.cloud/fg-gas-backend/grants/`
   const endpoint = `${grantName}/applications`
 
   const payloadData = await fs.readFile(payloadPath, 'utf-8')
