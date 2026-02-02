@@ -19,12 +19,8 @@
     "applicant": {
       "business": {
         "reference": "9990000099",
-        "email": {
-          "address": "test-farm@example.test"
-        },
-        "phone": {
-          "mobile": "02011223344"
-        },
+        "email": "test-farm@example.test",
+        "phone": "02011223344",
         "name": "Test Farm Holdings",
         "address": {
           "line1": "1 Test Lane",

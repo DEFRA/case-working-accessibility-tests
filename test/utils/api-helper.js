@@ -41,6 +41,7 @@ export async function createApplication(
     console.log(`Creating application at: ${url}`)
     console.log(`Using environment: ${environment}`)
     console.log(`Client reference: ${generatedClientRef}`)
+    console.log(`Request payload:`, JSON.stringify(payload, null, 2))
 
     const { res, payload: responsePayload } = await wreck.post(url, {
       payload: JSON.stringify(payload)
@@ -72,8 +73,29 @@ export async function createApplication(
     console.error(`Environment: ${environment}`)
     console.error(`Status Code: ${error.output?.statusCode || 'N/A'}`)
     console.error(`Error: ${error.message}`)
+
+    // Try to get the actual error response body
     if (error.data) {
-      console.error(`Response: ${error.data.toString()}`)
+      const dataStr = Buffer.isBuffer(error.data)
+        ? error.data.toString()
+        : JSON.stringify(error.data)
+      console.error(`Response Body:`, dataStr)
+      try {
+        const errorBody =
+          typeof error.data === 'string' ? JSON.parse(error.data) : error.data
+        console.error(
+          `Parsed Error Details:`,
+          JSON.stringify(errorBody, null, 2)
+        )
+      } catch (e) {
+        // Response is not JSON
+      }
+    }
+    if (error.output?.payload) {
+      console.error(
+        `Error Payload:`,
+        JSON.stringify(error.output.payload, null, 2)
+      )
     }
     throw error
   }
