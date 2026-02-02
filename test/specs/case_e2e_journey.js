@@ -37,7 +37,7 @@ describe('SFI Application E2E Tests', () => {
 
     it('Then the farmer is able to complete the SFI application', async () => {
       // // CW Approval Process
-      const appRefNum = 'case-ref-1768228758340-368650'
+      const appRefNum = 'case-ref-1768228759527-38916'
       await browser.url(browser.options.cwUrl)
       const cwUsername = process.env.ENTRA_ID_WRITER_USER
       const cwPassword = process.env.ENTRA_ID_USER_PASSWORD
