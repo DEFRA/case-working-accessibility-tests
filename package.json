@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "10.0.0",
+    "@hapi/wreck": "18.1.0",
     "@wdio/logger": "9.18.0",
     "axe-core": "4.10.3",
     "chromedriver": "144.0.0",

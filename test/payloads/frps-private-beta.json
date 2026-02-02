@@ -1,0 +1,200 @@
+{
+  "metadata": {
+    "clientRef": "{{random_client_ref}}",
+    "sbi": "888000001",
+    "frn": "{{random_frn}}",
+    "crn": "9990000001",
+    "submittedAt": "{{current_datetime}}"
+  },
+  "answers": {
+    "rulesCalculations": {
+      "id": 2979,
+      "message": "Application validated successfully",
+      "valid": true,
+      "date": "{{current_datetime}}"
+    },
+    "scheme": "SFI",
+    "applicant": {
+      "business": {
+        "reference": "9990000099",
+        "email": "test-farm@example.test",
+        "mobilePhoneNumber": "02011223344",
+        "landlinePhoneNumber": "01235863957",
+        "name": "Test Farm Holdings",
+        "address": {
+          "line1": "1 Test Lane",
+          "line2": "TEST VILLAGE",
+          "line3": null,
+          "line4": null,
+          "line5": null,
+          "street": "Test Lane",
+          "city": "Exampleton",
+          "postalCode": "ZZ99 5ZZ"
+        }
+      },
+      "customer": {
+        "name": {
+          "title": "Mr",
+          "first": "Test",
+          "middle": "User",
+          "last": "One"
+        }
+      }
+    },
+    "totalAnnualPaymentPence": 70284,
+    "application": {
+      "parcel": [
+        {
+          "sheetId": "AA0108",
+          "parcelId": "0114",
+          "area": {
+            "unit": "ha",
+            "quantity": 5.2182
+          },
+          "actions": [
+            {
+              "code": "CMOR1",
+              "version": 1,
+              "durationYears": 3,
+              "appliedFor": {
+                "unit": "ha",
+                "quantity": 4.7575
+              }
+            },
+            {
+              "code": "UPL3",
+              "version": 1,
+              "durationYears": 3,
+              "appliedFor": {
+                "unit": "ha",
+                "quantity": 4.7575
+              }
+            }
+          ]
+        },
+        {
+          "sheetId": "AA0108",
+          "parcelId": "0116",
+          "area": {
+            "unit": "ha",
+            "quantity": 2.1703
+          },
+          "actions": [
+            {
+              "code": "CMOR1",
+              "version": 1,
+              "durationYears": 3,
+              "appliedFor": {
+                "unit": "ha",
+                "quantity": 2.1705
+              }
+            },
+            {
+              "code": "UPL1",
+              "version": 1,
+              "durationYears": 3,
+              "appliedFor": {
+                "unit": "ha",
+                "quantity": 2.1705
+              }
+            }
+          ]
+        }
+      ],
+      "agreement": []
+    },
+    "payments": {
+      "parcel": [
+        {
+          "sheetId": "AA0108",
+          "parcelId": "0114",
+          "area": {
+            "unit": "ha",
+            "quantity": 5.2182
+          },
+          "actions": [
+            {
+              "code": "CMOR1",
+              "description": "Assess moorland and produce a written record",
+              "durationYears": 3,
+              "paymentRates": 1060,
+              "annualPaymentPence": 5042,
+              "eligible": {
+                "unit": "ha",
+                "quantity": 4.7575
+              },
+              "appliedFor": {
+                "unit": "ha",
+                "quantity": 4.7575
+              }
+            },
+            {
+              "code": "UPL3",
+              "description": "Limited livestock grazing on moorland",
+              "durationYears": 3,
+              "paymentRates": 6600,
+              "annualPaymentPence": 31399,
+              "eligible": {
+                "unit": "ha",
+                "quantity": 4.7575
+              },
+              "appliedFor": {
+                "unit": "ha",
+                "quantity": 4.7575
+              }
+            }
+          ]
+        },
+        {
+          "sheetId": "AA0108",
+          "parcelId": "0116",
+          "area": {
+            "unit": "ha",
+            "quantity": 2.1703
+          },
+          "actions": [
+            {
+              "code": "CMOR1",
+              "description": "Assess moorland and produce a written record",
+              "durationYears": 3,
+              "paymentRates": 1060,
+              "annualPaymentPence": 2300,
+              "eligible": {
+                "unit": "ha",
+                "quantity": 2.1705
+              },
+              "appliedFor": {
+                "unit": "ha",
+                "quantity": 2.1705
+              }
+            },
+            {
+              "code": "UPL1",
+              "description": "Moderate livestock grazing on moorland",
+              "durationYears": 3,
+              "paymentRates": 2000,
+              "annualPaymentPence": 4341,
+              "eligible": {
+                "unit": "ha",
+                "quantity": 2.1705
+              },
+              "appliedFor": {
+                "unit": "ha",
+                "quantity": 2.1705
+              }
+            }
+          ]
+        }
+      ],
+      "agreement": [
+        {
+          "code": "CMOR1",
+          "description": "Assess moorland and produce a written record",
+          "durationYears": 3,
+          "paymentRates": 27200,
+          "annualPaymentPence": 27200
+        }
+      ]
+    }
+  }
+}
