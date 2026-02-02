@@ -56,7 +56,7 @@ describe('SFI Application E2E Tests', () => {
       // // CW Approval Process
       const appRefNum = 'case-ref-1768228756134-313074'
       await browser.url(browser.options.cwUrl)
-      const cwUsername = process.env.ENTRA_ID_ADMIN_USER
+      const cwUsername = process.env.ENTRA_ID_READER_USER
       const cwPassword = process.env.ENTRA_ID_USER_PASSWORD
       await entraLogin(cwUsername, cwPassword)
       const isReferenceInTable = await CWHomePage.waitUntilVisible(appRefNum)
