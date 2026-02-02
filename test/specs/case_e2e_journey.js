@@ -29,6 +29,11 @@ describe('SFI Application E2E Tests', () => {
     await initialiseAccessibilityChecking()
   })
 
+  after(async () => {
+    // Generate accessibility reports even if tests fail
+    generateAccessibilityReports('case-working-e2e-journey')
+  })
+
   describe('Given farmer goes through the complete E2E journey', () => {
     it('Then the farmer is able to complete the SFI application', async () => {
       // const username = '1103313150'
@@ -97,9 +102,6 @@ describe('SFI Application E2E Tests', () => {
 
       // Accessibility check - After case approved
       await analyseAccessibility('CW After Case Approved')
-
-      // Generate accessibility reports
-      generateAccessibilityReports('case-working-e2e-journey')
 
       // await browser.refresh()
       // await CwTasksPage.waitForElement('Agreements')
