@@ -1,18 +1,11 @@
 import { browser } from '@wdio/globals'
-// import HomePage from '../page-objects/home.page.js'
-// import LoginPage from '../page-objects/login.page.js'
-// import { SERVICE_NAME } from '../utils/config.js'
-// import { runFundingApiJourney } from '../utils/journey-api.js'
 import CWHomePage from '../page-objects/cw.home.page.js'
 import { entraLogin } from '../utils/cw-login-helper.js'
 import CwTasksPage from '../page-objects/cw.tasks.page.js'
 import CwAllCasesPage from '../page-objects/cw.allcases.page.js'
 // import CwTimelinePage from '../page-objects/cw.timeline.page.js'
-// import CWAgreementsPage from '../page-objects/cw.agreements.page.js'
-// import AgreementReviewOfferPage from '../page-objects/agreements.review.offer.page.js'
-// import AgreementsAcceptYourOfferPage from '../page-objects/agreements.accept.your.offer.page.js'
-// import AgreementOfferAcceptedPage from '../page-objects/agreements.offer.accepted.page.js'
-// import { clearState } from '../utils/clear-sbi-state.js'
+import CWAgreementsPage from '../page-objects/cw.agreements.page.js'
+
 import {
   analyseAccessibility,
   generateAccessibilityReports,
@@ -97,28 +90,31 @@ describe('SFI Application E2E Tests', () => {
       // Accessibility check - After case approved
       await analyseAccessibility('CW After Case Approved')
 
-      // await browser.refresh()
-      // await CwTasksPage.waitForElement('Agreements')
+      await browser.refresh()
+      await CwTasksPage.waitForElement('Agreements')
 
-      // await CwTasksPage.confirmTask('Check draft funding agreement')
-      // await CwTasksPage.confirmTask('Notify customer that agreement is ready')
+      await CwTasksPage.confirmTask('Check draft funding agreement')
+      await CwTasksPage.confirmTask('Notify customer that agreement is ready')
 
-      // await CwTasksPage.approveAgreement('AGREEMENT_SENT')
-      // await CwAllCasesPage.clickButtonByText('Confirm')
+      await CwTasksPage.approveAgreement('AGREEMENT_SENT')
+      await CwAllCasesPage.clickButtonByText('Confirm')
 
-      // const agreementsPageTitle = await CWAgreementsPage.headerH2()
-      // expect(agreementsPageTitle).toEqual('Customer Agreement Review')
+      const agreementsPageTitle = await CWAgreementsPage.headerH2()
+      expect(agreementsPageTitle).toEqual('Customer Agreement Review')
+      await analyseAccessibility('After agreement review')
 
-      // await CwTasksPage.clickLinkByText('Agreements')
+      await CwTasksPage.clickLinkByText('Agreements')
 
-      // const agreementIdInitialJourney =
-      //   await CWAgreementsPage.getFirstAgreementReferenceText()
-      // expect(await CWAgreementsPage.getFirstAgreementStatusText()).toBe(
-      //   'Offered'
-      // )
-      // await browser.takeScreenshot()
-      // await browser.pause(5000)
-      // console.log(`agreementId :`, agreementIdInitialJourney)
+      const agreementIdInitialJourney =
+        await CWAgreementsPage.getFirstAgreementReferenceText()
+      expect(await CWAgreementsPage.getFirstAgreementStatusText()).toBe(
+        'Offered'
+      )
+      await analyseAccessibility('On agreements page')
+
+      await browser.takeScreenshot()
+      await browser.pause(5000)
+      console.log(`agreementId :`, agreementIdInitialJourney)
     })
   })
 })

@@ -19,12 +19,8 @@
     "applicant": {
       "business": {
         "reference": "1101091126",
-        "email": {
-          "address": "texelshirecontractingg@gnitcartnocerihslexeto.com.test"
-        },
-        "phone": {
-          "mobile": "07713973104"
-        },
+        "email": "texelshirecontractingg@gnitcartnocerihslexeto.com.test",
+        "phone": "07713973104",
         "name": "Texels Hire & Contracting",
         "address": {
           "line1": "Benbrigge House",
