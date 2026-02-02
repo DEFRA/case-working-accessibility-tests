@@ -36,25 +36,8 @@ describe('SFI Application E2E Tests', () => {
 
   describe('Given farmer goes through the complete E2E journey', () => {
     it('Then the farmer is able to complete the SFI application', async () => {
-      // const username = '1103313150'
-      // const sbi = '106514040'
-      // const password = process.env.DEFRA_ID_USER_PASSWORD
-      // // clear sbi state before starting a new application
-      // await clearState(sbi, 'farm-payments')
-
-      // // Farmer Login and Application Submission through Land Grants Journey
-      // await HomePage.open()
-      // await expect(browser).toHaveTitle(`Sign in to your acccount`)
-      // await LoginPage.login(username, password)
-      // await expect(browser).toHaveTitle(new RegExp(`${SERVICE_NAME}`))
-      // const appRef = await runFundingApiJourney({ browser })
-      // const appRefNum = appRef.referenceNumber.toString().toLowerCase()
-      // await HomePage.open()
-      // await browser.pause(5000)
-      // await browser.takeScreenshot()
-      // console.log(`Application Reference Number:`, appRefNum)
       // // CW Approval Process
-      const appRefNum = 'case-ref-1768228756134-313074'
+      const appRefNum = 'case-ref-1768228757318-4517'
       await browser.url(browser.options.cwUrl)
       const cwUsername = process.env.ENTRA_ID_READER_USER
       const cwPassword = process.env.ENTRA_ID_USER_PASSWORD
@@ -125,31 +108,6 @@ describe('SFI Application E2E Tests', () => {
       // await browser.takeScreenshot()
       // await browser.pause(5000)
       // console.log(`agreementId :`, agreementIdInitialJourney)
-
-      // // Agreements - Farmer Accepts Offer
-      // await browser.url(browser.options.agreementsUrl)
-      // await browser.pause(5000)
-      // await AgreementReviewOfferPage.selectContinue()
-      // await AgreementsAcceptYourOfferPage.clickConfirmCheckbox()
-      // await AgreementsAcceptYourOfferPage.selectAcceptOffer()
-      // const confirmationText =
-      //   await AgreementOfferAcceptedPage.getConfirmationText()
-      // expect(confirmationText).toBe('Agreement offer accepted')
-      // await browser.takeScreenshot()
-      // // Case Working - Verify Agreement Status after Farmer Accepts Offer
-      // await browser.pause(5000)
-      // await browser.url(browser.options.cwUrl)
-      // await CWHomePage.clickLinkByText(appRefNum)
-      // await browser.pause(5000)
-      // await CwTimelinePage.clickLinkByText('Agreements')
-      // await browser.pause(5000)
-      // const agreementIdOnReturn =
-      //   await CWAgreementsPage.getFirstAgreementReferenceText()
-      // expect(agreementIdInitialJourney).toBe(agreementIdOnReturn)
-      // expect(await CWAgreementsPage.getFirstAgreementStatusText()).toBe(
-      //   'Accepted'
-      // )
-      // await browser.pause(5000)
     })
   })
 })
