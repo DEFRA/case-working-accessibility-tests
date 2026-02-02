@@ -1,4 +1,4 @@
-sfi-reform-service-e2e-tests
+Accessibility tests for case working
 
 The template to create a service that runs WDIO tests against an environment.
 
