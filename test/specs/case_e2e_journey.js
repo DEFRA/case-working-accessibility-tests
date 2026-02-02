@@ -18,6 +18,7 @@ import {
   generateAccessibilityReports,
   initialiseAccessibilityChecking
 } from '../helper/accessibility-checking.js'
+import { createApplication } from '../utils/api-helper.js'
 
 afterEach(async () => {
   // Clear all cookies after each test
@@ -36,8 +37,18 @@ describe('SFI Application E2E Tests', () => {
     })
 
     it('Then the farmer is able to complete the SFI application', async () => {
-      // // CW Approval Process
-      const appRefNum = 'case-ref-1768228759527-38916'
+      // Create application via API
+      const environment = process.env.ENVIRONMENT || 'dev'
+      const apiResponse = await createApplication(
+        environment,
+        'frps-private-beta'
+      )
+      expect(apiResponse.statusCode).toBe(204)
+      const appRefNum = apiResponse.clientRef
+
+      console.log(`Application created with reference: ${appRefNum}`)
+
+      // CW Approval Process
       await browser.url(browser.options.cwUrl)
       const cwUsername = process.env.ENTRA_ID_WRITER_USER
       const cwPassword = process.env.ENTRA_ID_USER_PASSWORD
