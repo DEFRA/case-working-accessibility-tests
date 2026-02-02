@@ -8,7 +8,15 @@ export async function createApplication(
   grantName = 'frps-private-beta'
 ) {
   const payloadPath = `test/payloads/${grantName}.json`
-  const gasUrl = `https://ephemeral-protected.api.${environment}.cdp-int.defra.cloud/fg-gas-backend/grants/`
+
+  // Detect if running on local machine (Mac) vs CDP Portal
+  // On local machine: use ephemeral-protected gateway and include x-api-key
+  // In CDP Portal: use direct fg-gas-backend URL without x-api-key
+  const isRunningLocally = !!process.env.X_API_KEY
+  const gasUrl = isRunningLocally
+    ? `https://ephemeral-protected.api.${environment}.cdp-int.defra.cloud/fg-gas-backend/grants/`
+    : `https://fg-gas-backend.${environment}.cdp-int.defra.cloud/grants/`
+
   const endpoint = `${grantName}/applications`
 
   const payloadData = await fs.readFile(payloadPath, 'utf-8')
@@ -17,12 +25,17 @@ export async function createApplication(
   payload = requestPayload(payload)
   const url = `${gasUrl}${endpoint}`
 
-  const wreck = Wreck.defaults({
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.GAS_KEY}`
-    }
-  })
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${process.env.GAS_KEY}`
+  }
+
+  // Add x-api-key header when running on local machine (value refreshes daily)
+  if (isRunningLocally) {
+    headers['x-api-key'] = process.env.X_API_KEY
+  }
+
+  const wreck = Wreck.defaults({ headers })
 
   try {
     console.log(`Creating application at: ${url}`)
