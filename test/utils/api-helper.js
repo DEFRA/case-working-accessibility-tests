@@ -25,6 +25,10 @@ export async function createApplication(
   })
 
   try {
+    console.log(`Creating application at: ${url}`)
+    console.log(`Using environment: ${environment}`)
+    console.log(`Client reference: ${generatedClientRef}`)
+
     const { res, payload: responsePayload } = await wreck.post(url, {
       payload: JSON.stringify(payload)
     })
@@ -40,14 +44,24 @@ export async function createApplication(
       }
     }
 
-    console.log(`Application created with reference: ${generatedClientRef}`)
+    console.log(
+      `Application created successfully with status: ${res.statusCode}`
+    )
+    console.log(`Application reference: ${generatedClientRef}`)
     return {
       statusCode: res.statusCode,
       body: responseBody,
       clientRef: generatedClientRef
     }
   } catch (error) {
-    console.error('API Request Failed:', error)
+    console.error('API Request Failed!')
+    console.error(`URL: ${url}`)
+    console.error(`Environment: ${environment}`)
+    console.error(`Status Code: ${error.output?.statusCode || 'N/A'}`)
+    console.error(`Error: ${error.message}`)
+    if (error.data) {
+      console.error(`Response: ${error.data.toString()}`)
+    }
     throw error
   }
 }
