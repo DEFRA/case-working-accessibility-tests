@@ -43,9 +43,17 @@ describe('SFI Application E2E Tests', () => {
       console.log(`Application created with reference: ${appRefNum}`)
 
       // CW Approval Process
+      console.log(`Navigating to CW URL: ${browser.options.cwUrl}`)
       await browser.url(browser.options.cwUrl)
+
+      // Wait for page to load
+      await browser.pause(3000)
+      const currentUrl = await browser.getUrl()
+      console.log(`Current URL after navigation: ${currentUrl}`)
+
       const cwUsername = process.env.ENTRA_ID_WRITER_USER
       const cwPassword = process.env.ENTRA_ID_USER_PASSWORD
+      console.log(`Attempting login with username: ${cwUsername}`)
       await entraLogin(cwUsername, cwPassword)
       const isReferenceInTable = await CWHomePage.waitUntilVisible(appRefNum)
       await expect(isReferenceInTable).toBe(true)
@@ -67,13 +75,28 @@ describe('SFI Application E2E Tests', () => {
       await analyseAccessibility('CW After Customer Details Task')
 
       await CwTasksPage.completeTask('Review land parcel rule checks')
+
+      // Accessibility check - After land parcel rule checks
+      await analyseAccessibility('CW After Land Parcel Rule Checks Task')
+
       await CwTasksPage.completeTask(
         'Check if any land parcels are within an SSSI'
       )
+
+      // Accessibility check - After SSSI check
+      await analyseAccessibility('CW After SSSI Check Task')
+
       await CwTasksPage.completeTask('Check payment amount')
+
+      // Accessibility check - After payment amount check
+      await analyseAccessibility('CW After Payment Amount Task')
+
       await CwTasksPage.completeTask(
         'Review scheme budget as a finance officer'
       )
+
+      // Accessibility check - After scheme budget review
+      await analyseAccessibility('CW After Scheme Budget Review Task')
 
       // Accessibility check - After completing all tasks
       await analyseAccessibility('CW After All Tasks Completed')
@@ -95,14 +118,24 @@ describe('SFI Application E2E Tests', () => {
       await CwTasksPage.waitForElement('Agreements')
 
       await CwTasksPage.confirmTask('Check draft funding agreement')
+
+      // Accessibility check - After draft funding agreement confirmation
+      await analyseAccessibility('CW After Draft Funding Agreement Task')
+
       await CwTasksPage.confirmTask('Notify customer that agreement is ready')
+
+      // Accessibility check - After customer notification task
+      await analyseAccessibility('CW After Customer Notification Task')
 
       await CwTasksPage.approveAgreement('AGREEMENT_SENT')
       await CwAllCasesPage.clickButtonByText('Confirm')
 
+      // Accessibility check - After agreement approval confirmation
+      await analyseAccessibility('CW After Agreement Approval Confirmation')
+
       const agreementsPageTitle = await CWAgreementsPage.headerH2()
       expect(agreementsPageTitle).toEqual('Customer Agreement Review')
-      await analyseAccessibility('After agreement review')
+      await analyseAccessibility('CW After Agreement Review')
 
       await CwTasksPage.clickLinkByText('Agreements')
 

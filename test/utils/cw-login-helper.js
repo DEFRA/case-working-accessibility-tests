@@ -11,14 +11,23 @@ export async function entraLogin(username, password) {
  * Performs the base login steps (enter email, password, click sign in).
  */
 async function performLogin(username, password) {
+  console.log('Waiting for Microsoft login page to load...')
+  const currentUrl = await browser.getUrl()
+  console.log(`Current URL in performLogin: ${currentUrl}`)
+
   const emailField = await $('#i0116')
-  await emailField.waitForDisplayed({ timeout: 15000 })
+  console.log('Waiting for email field to be displayed...')
+  await emailField.waitForDisplayed({ timeout: 30000 })
+  console.log('Email field is displayed, entering username...')
   await emailField.setValue(username)
   await (await $('#idSIButton9')).click() // Next
+  console.log('Clicked Next, waiting for password page...')
   // eslint-disable-next-line wdio/no-pause
   await browser.pause(5000)
   const passwordField = await $('#i0118')
-  await passwordField.waitForDisplayed({ timeout: 15000 })
+  console.log('Waiting for password field to be displayed...')
+  await passwordField.waitForDisplayed({ timeout: 30000 })
+  console.log('Password field is displayed, entering password...')
   await passwordField.setValue(password)
 
   // sometime sign in button don't click
