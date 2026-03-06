@@ -41,7 +41,8 @@ npm install
 Start application you are testing on the url specified in `baseUrl` [wdio.local.conf.js](wdio.local.conf.js)
 
 ```bash
-npm run test:local
+Generate fresh API key for the env and update in the .env file and run below to test locally
+export $(cat .env | grep -v '^#' | xargs) && npm run test:local
 ```
 
 ### Debugging local tests

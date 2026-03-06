@@ -55,7 +55,7 @@
           "actions": [
             {
               "code": "CMOR1",
-              "version": 1,
+              "version": "1",
               "durationYears": 3,
               "appliedFor": {
                 "unit": "ha",
@@ -64,7 +64,7 @@
             },
             {
               "code": "UPL3",
-              "version": 1,
+              "version": "1",
               "durationYears": 3,
               "appliedFor": {
                 "unit": "ha",
@@ -83,7 +83,7 @@
           "actions": [
             {
               "code": "CMOR1",
-              "version": 1,
+              "version": "1",
               "durationYears": 3,
               "appliedFor": {
                 "unit": "ha",
@@ -92,7 +92,7 @@
             },
             {
               "code": "UPL1",
-              "version": 1,
+              "version": "1",
               "durationYears": 3,
               "appliedFor": {
                 "unit": "ha",
