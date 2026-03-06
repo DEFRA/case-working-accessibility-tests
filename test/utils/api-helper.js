@@ -101,19 +101,31 @@ export async function createApplication(
 
     // Try to get the actual error response body
     if (error.data) {
-      const dataStr = Buffer.isBuffer(error.data)
-        ? error.data.toString()
-        : JSON.stringify(error.data)
-      console.error(`Response Body:`, dataStr)
       try {
-        const errorBody =
-          typeof error.data === 'string' ? JSON.parse(error.data) : error.data
+        const dataStr = Buffer.isBuffer(error.data)
+          ? error.data.toString()
+          : typeof error.data === 'string'
+            ? error.data
+            : JSON.stringify(error.data)
+        console.error(`Response Body:`, dataStr)
+        try {
+          const errorBody =
+            typeof error.data === 'string' ? JSON.parse(error.data) : error.data
+          console.error(
+            `Parsed Error Details:`,
+            JSON.stringify(errorBody, null, 2)
+          )
+        } catch (e) {
+          // Response is not JSON
+        }
+      } catch (stringifyError) {
+        // Handle circular reference error
         console.error(
-          `Parsed Error Details:`,
-          JSON.stringify(errorBody, null, 2)
+          `Response Body: [Could not stringify - circular reference]`
         )
-      } catch (e) {
-        // Response is not JSON
+        console.error(
+          `Error type: ${error.data?.constructor?.name || 'unknown'}`
+        )
       }
     }
     if (error.output?.payload) {

@@ -14,3 +14,4 @@ allure-results/
 reports/
 FAILED
 bugs/
+test-output.log
