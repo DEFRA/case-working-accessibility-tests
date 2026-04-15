@@ -78,13 +78,6 @@ describe('SFI Application E2E Tests', () => {
       // Accessibility check - After land parcel rule checks
       await analyseAccessibility('CW After Land Parcel Rule Checks Task')
 
-      await CwTasksPage.completeTask(
-        'Check if any land parcels are within an SSSI'
-      )
-
-      // Accessibility check - After SSSI check
-      await analyseAccessibility('CW After SSSI Check Task')
-
       await CwTasksPage.completeTask('Check payment amount')
 
       // Accessibility check - After payment amount check
