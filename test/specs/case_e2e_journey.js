@@ -3,7 +3,6 @@ import CWHomePage from '../page-objects/cw.home.page.js'
 import { entraLogin } from '../utils/cw-login-helper.js'
 import CwTasksPage from '../page-objects/cw.tasks.page.js'
 import CwAllCasesPage from '../page-objects/cw.allcases.page.js'
-// import CwTimelinePage from '../page-objects/cw.timeline.page.js'
 import CWAgreementsPage from '../page-objects/cw.agreements.page.js'
 
 import {
