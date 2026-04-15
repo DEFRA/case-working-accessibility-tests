@@ -2,12 +2,29 @@ Accessibility tests for case working
 
 The template to create a service that runs WDIO tests against an environment.
 
-- [Local](#local)
+## Documentation
+
+- **[Quick Reference](QUICK_REFERENCE.md)** - One-page cheat sheet
+- **[Technology Stack](TECHNOLOGY_STACK.md)** - What tools we use and how they work
+- **[Full Testing Guide](ACCESSIBILITY_TESTING_GUIDE.md)** - Comprehensive documentation
+- **[Demo Presentation](ACCESSIBILITY_DEMO_SLIDES.md)** - Presentation slides
+- **[Demo Setup Guide](DEMO_README.md)** - How to prepare and deliver the demo
+- **[Executive Summary](EXECUTIVE_SUMMARY.md)** - High-level overview for stakeholders
+
+## Technology Summary
+
+We use **wcagChecker** (from `dist/wcagchecker.js`) for all accessibility testing. This is a custom wrapper that bundles axe-core v4.10.2 internally and provides WebDriverIO integration with HTML report generation. See [TECHNOLOGY_STACK.md](TECHNOLOGY_STACK.md) for details.
+
+## Table of Contents
+
+- [Local Development](#local-development)
   - [Requirements](#requirements)
     - [Node.js](#nodejs)
   - [Setup](#setup)
+  - [Configure environment variables](#configure-environment-variables)
   - [Running local tests](#running-local-tests)
   - [Debugging local tests](#debugging-local-tests)
+  - [Fixing ChromeDriver version mismatch](#fixing-chromedriver-version-mismatch)
 - [Production](#production)
   - [Debugging tests](#debugging-tests)
 - [Licence](#licence)
@@ -36,19 +53,49 @@ Install application dependencies:
 npm install
 ```
 
-### Running local tests
+### Configure environment variables
 
-Start application you are testing on the url specified in `baseUrl` [wdio.local.conf.js](wdio.local.conf.js)
+Copy `.env.example` to `.env` and fill in the values:
 
 ```bash
-Generate fresh API key for the env and update in the .env file and run below to test locally
-export $(cat .env | grep -v '^#' | xargs) && npm run test:local
+cp .env.example .env
+```
+
+Update `X_API_KEY` in `.env` with a fresh API key for the target environment. Keys can be generated from the CDP Portal for the relevant service. Make sure `ENVIRONMENT` is set to the environment you want to test against (e.g. `dev`, `test`, `perf-test`) and all other keys match that environment.
+
+### Running local tests
+
+The `.env` file must be loaded before running tests. Use the following command — it strips inline comments from `.env` before exporting to avoid shell parsing errors:
+
+```bash
+export $(cat .env | grep -v '^#' | sed 's/ #.*//' | xargs) && npm run test:local
 ```
 
 ### Debugging local tests
 
 ```bash
-npm run test:local:debug
+export $(cat .env | grep -v '^#' | sed 's/ #.*//' | xargs) && npm run test:local:debug
+```
+
+### Fixing ChromeDriver version mismatch
+
+If you see an error like:
+
+```
+ChromeDriver only supports Chrome version X
+Current browser version is Y
+```
+
+Update ChromeDriver to match your installed Chrome version (use the major version number):
+
+```bash
+npm install chromedriver@<your-chrome-major-version> --save-dev
+```
+
+For example, if your Chrome is version 147:
+
+```bash
+npm install chromedriver@147 --save-dev
 ```
 
 ## Production

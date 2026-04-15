@@ -47,7 +47,7 @@
     "@hapi/wreck": "18.1.0",
     "@wdio/logger": "9.18.0",
     "axe-core": "4.10.3",
-    "chromedriver": "144.0.0",
+    "chromedriver": "147.0.2",
     "date-fns": "4.1.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "9.1.0",

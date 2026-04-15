@@ -14,9 +14,39 @@ export async function initialiseAccessibilityChecking() {
   await wcagChecker.init(browser)
 }
 
+// Filters out aria-allowed-attr violations on input[type="radio"] elements.
+// This is a known issue in the GOV.UK Design System (GDS) — radio inputs use
+// aria-expanded for conditional reveals, which axe flags as unsupported.
+// GDS acknowledges this: https://design-system.service.gov.uk/components/radios/#known-issues
+function filterKnownGDSViolations() {
+  const violations = wcagChecker.wcagResult.axeViolations
+  if (!violations.length) return
+
+  const lastEntry = violations[violations.length - 1]
+  for (const url of Object.keys(lastEntry)) {
+    lastEntry[url] = lastEntry[url]
+      .map((violation) => {
+        if (violation.id !== 'aria-allowed-attr') return violation
+
+        const filteredNodes = violation.nodes.filter(
+          (node) =>
+            !(
+              node.html.includes('type="radio"') &&
+              node.html.includes('aria-expanded')
+            )
+        )
+
+        if (filteredNodes.length === 0) return null
+        return { ...violation, nodes: filteredNodes }
+      })
+      .filter(Boolean)
+  }
+}
+
 export async function analyseAccessibility(suffix) {
   try {
     await wcagChecker.analyse(browser, suffix)
+    filterKnownGDSViolations()
   } catch (error) {
     log.error(`Accessibility analysis failed for ${suffix}: ${error.message}`)
   }
