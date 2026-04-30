@@ -138,6 +138,31 @@ describe('SFI Application E2E Tests', () => {
       )
       await analyseAccessibility('On agreements page')
 
+      // Accessibility checks - all tabs (checked at end when Agreements tab is also visible)
+      await CwTasksPage.clickLinkByText('Tasks')
+      await browser.pause(2000)
+      await analyseAccessibility('CW Tasks Tab')
+
+      await CwTasksPage.clickLinkByText('Application')
+      await browser.pause(2000)
+      await analyseAccessibility('CW Application Tab')
+
+      await CwTasksPage.clickLinkByText('Calculations')
+      await browser.pause(2000)
+      await analyseAccessibility('CW Calculations Tab')
+
+      await CwTasksPage.clickLinkByText('Timeline')
+      await browser.pause(2000)
+      await analyseAccessibility('CW Timeline Tab')
+
+      await CwTasksPage.clickLinkByText('Notes')
+      await browser.pause(2000)
+      await analyseAccessibility('CW Notes Tab')
+
+      await CwTasksPage.clickLinkByText('Agreements')
+      await browser.pause(2000)
+      await analyseAccessibility('CW Agreements Tab')
+
       await browser.takeScreenshot()
       await browser.pause(5000)
       console.log(`agreementId :`, agreementIdInitialJourney)
