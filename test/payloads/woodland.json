@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "clientRef": "{{random_client_ref}}",
+    "sbi": "106284736",
+    "frn": "{{random_frn}}",
+    "crn": "1102838829",
+    "defraId": "DEFRA0001",
+    "createdAt": "{{current_datetime}}",
+    "submittedAt": "{{current_datetime}}"
+  },
+  "answers": {
+    "businessDetailsUpToDate": true,
+    "guidanceRead": true,
+    "landRegisteredWithRpa": true,
+    "landManagementControl": true,
+    "publicBodyTenant": false,
+    "landHasGrazingRights": false,
+    "appLandHasExistingWmp": false,
+    "intendToApplyHigherTier": false,
+    "includedAllEligibleWoodland": true,
+    "applicationConfirmation": true,
+    "totalHectaresAppliedFor": 10,
+    "totalHectaresForSelectedParcels": 10,
+    "hectaresTenOrOverYearsOld": 6,
+    "hectaresUnderTenYearsOld": 4,
+    "woodlandName": "Test Woodland",
+    "centreGridReference": "SK512347",
+    "fcTeamCode": "SOUTH_WEST",
+    "landParcels": [
+      {
+        "parcelId": "NT8701-9412",
+        "areaHa": 10.0
+      }
+    ],
+    "applicant": {
+      "business": {
+        "reference": "1101091126",
+        "email": "texelshirecontractingg@gnitcartnocerihsl.com",
+        "phone": "07713973104",
+        "name": "Texels Hire & Contracting",
+        "address": {
+          "line1": "Benbrigge House",
+          "line2": "ALBRIGHTON",
+          "line3": null,
+          "line4": null,
+          "line5": null,
+          "street": "BRIDGE ROAD",
+          "city": "GRIMSBY",
+          "postalCode": "DY13 0UY"
+        }
+      },
+      "customer": {
+        "name": {
+          "title": "Mr",
+          "first": "Graham",
+          "middle": "Lisa",
+          "last": "Gilfoyle"
+        }
+      }
+    }
+  }
+}
