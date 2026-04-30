@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "clientRef": "{{random_client_ref}}",
+    "sbi": "888000001",
+    "frn": "{{random_frn}}",
+    "crn": "9990000001",
+    "defraId": "DEFRA0001",
+    "createdAt": "{{current_datetime}}",
+    "submittedAt": "{{current_datetime}}"
+  },
+  "answers": {
+    "businessDetailsUpToDate": true,
+    "guidanceRead": true,
+    "landRegisteredWithRpa": true,
+    "landManagementControl": true,
+    "publicBodyTenant": false,
+    "landHasGrazingRights": false,
+    "appLandHasExistingWmp": false,
+    "intendToApplyHigherTier": false,
+    "includedAllEligibleWoodland": true,
+    "applicationConfirmation": true,
+    "totalHectaresAppliedFor": 10,
+    "totalHectaresForSelectedParcels": 10,
+    "hectaresTenOrOverYearsOld": 6,
+    "hectaresUnderTenYearsOld": 4,
+    "woodlandName": "Test Woodland",
+    "centreGridReference": "NG12345678",
+    "fcTeamCode": "SOUTH_WEST",
+    "landParcels": [
+      {
+        "parcelId": "AA0001-0001",
+        "areaHa": 10.0
+      }
+    ],
+    "applicant": {
+      "business": {
+        "reference": "9990000099",
+        "email": "test-farm@example.test",
+        "phone": "02011223344",
+        "name": "Test Farm Holdings",
+        "address": {
+          "line1": "1 Test Lane",
+          "line2": "TEST VILLAGE",
+          "line3": null,
+          "line4": null,
+          "line5": null,
+          "street": "Test Lane",
+          "city": "Exampleton",
+          "postalCode": "ZZ99 5ZZ"
+        }
+      },
+      "customer": {
+        "name": {
+          "title": "Mr",
+          "first": "Test",
+          "middle": "User",
+          "last": "One"
+        }
+      }
+    }
+  }
+}
