@@ -1,6 +1,12 @@
 import { browser } from '@wdio/globals'
 import CWHomePage from '../page-objects/cw.home.page.js'
 import CWApplicationPage from '../page-objects/cw.application.page.js'
+import CwTasksPage from '../page-objects/cw.tasks.page.js'
+import CWAgreementsPage from '../page-objects/cw.agreements.page.js'
+import AgreementReviewOfferPage from '../page-objects/agreements.review.offer.page.js'
+import AgreementsAcceptYourOfferPage from '../page-objects/agreements.accept.your.offer.page.js'
+import AgreementsOfferAcceptedPage from '../page-objects/agreements.offer.accepted.page.js'
+import LoginPage from '../page-objects/login.page.js'
 import { entraLogin } from '../utils/cw-login-helper.js'
 
 import {
@@ -62,6 +68,45 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       // Accessibility check - Tasks tab (default landing page)
       await analyseAccessibility('WMP Tasks Tab')
 
+      // CW Workflow: Start reviewing the application
+      await CwTasksPage.clickButtonByText('Start')
+      await browser.pause(2000)
+      await CwTasksPage.enterText(
+        '#ACTION_APPROVE_APPLICATION-comment',
+        'started reviewing the application'
+      )
+      await CwTasksPage.clickButtonByText('Approve')
+      await browser.pause(2000)
+
+      // Wait for status: Agreement Generating
+      await $('p*=Agreement Generating').waitForDisplayed({ timeout: 10000 })
+      await analyseAccessibility('WMP Agreement Generating Status')
+
+      // Refresh until status changes to: Agreement ready for applicant
+      await browser.pause(5000)
+      await browser.refresh()
+      await $('p*=Agreement ready for applicant').waitForDisplayed({
+        timeout: 15000
+      })
+      await analyseAccessibility('WMP Agreement Ready for Applicant Status')
+
+      // Send agreement to applicant
+      const sendAgreementLink = await $(
+        'a[href*="TASK_AGREEMENT_SENT_TO_APPLICANT"]'
+      )
+      await sendAgreementLink.waitForClickable({ timeout: 10000 })
+      await sendAgreementLink.scrollIntoView()
+      await sendAgreementLink.click()
+      await browser.pause(2000)
+      await CwTasksPage.selectRadioByValue('STATUS_AGREEMENT_SENT_TO_APPLICANT')
+      await CwTasksPage.enterText(
+        '#STATUS_AGREEMENT_SENT_TO_APPLICANT-comment',
+        'The agreement has been sent to the applicant'
+      )
+      await analyseAccessibility('WMP Agreement Sent to Applicant Task Page')
+      await CwTasksPage.clickButtonByText('Confirm')
+      await browser.pause(2000)
+
       // Application tab
       await CWApplicationPage.clickLinkByText('Application')
       await browser.pause(2000)
@@ -76,6 +121,113 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       await CWApplicationPage.clickLinkByText('Notes')
       await browser.pause(2000)
       await analyseAccessibility('WMP Notes Tab')
+
+      // Agreements tab - capture agreement ID and verify status is Offered
+      await CWApplicationPage.clickLinkByText('Agreements')
+      await browser.pause(2000)
+      await analyseAccessibility('WMP Agreements Tab')
+
+      const agreementIdInitialJourney =
+        await CWAgreementsPage.getFirstAgreementReferenceText()
+      expect(await CWAgreementsPage.getFirstAgreementStatusText()).toBe(
+        'Offered'
+      )
+
+      // Agreements - Farmer logs in and accepts offer
+      await browser.url(browser.options.agreementsUrl)
+      await browser.pause(3000)
+      await LoginPage.login('1102838829', process.env.DEFRA_ID_USER_PASSWORD)
+      await browser.pause(3000)
+      await browser.url(
+        browser.options.agreementsUrl + agreementIdInitialJourney
+      )
+      await browser.pause(3000)
+      await analyseAccessibility('WMP Agreement Review Offer Page')
+      await AgreementReviewOfferPage.selectContinue()
+      await browser.pause(2000)
+      await analyseAccessibility('WMP Agreement Accept Your Offer Page')
+      await AgreementsAcceptYourOfferPage.clickConfirmCheckbox()
+      await AgreementsAcceptYourOfferPage.selectAcceptOffer()
+      await browser.pause(2000)
+      const confirmationText =
+        await AgreementsOfferAcceptedPage.getConfirmationText()
+      expect(confirmationText).toBe('Agreement offer accepted')
+      await analyseAccessibility('WMP Agreement Offer Accepted Page')
+
+      // Back to CW - wait for Ready to forward to Forestry Commission
+      await browser.pause(5000)
+      await browser.url(browser.options.cwUrl)
+      await CWHomePage.clickLinkByText(appRefNum)
+      await browser.pause(3000)
+      await $('p*=Ready to forward to Forestry Commission').waitForDisplayed({
+        timeout: 15000
+      })
+      await analyseAccessibility('WMP Ready to Forward to FC Status')
+      await browser.pause(2000)
+
+      // Create CRM record task
+      const crmRecordLink = await $('a[href*="TASK_CREATE_CRM_RECORD"]')
+      await crmRecordLink.waitForClickable({ timeout: 10000 })
+      await crmRecordLink.scrollIntoView()
+      await crmRecordLink.click()
+      await browser.pause(2000)
+      await CwTasksPage.selectRadioByValue('STATUS_CRM_RECORD_CREATED')
+      await CwTasksPage.enterText(
+        '#STATUS_CRM_RECORD_CREATED-comment',
+        'Create a CRM record for this application'
+      )
+      await analyseAccessibility('WMP Create CRM Record Task Page')
+      await CwTasksPage.clickButtonByText('Confirm')
+      await browser.pause(2000)
+
+      // Forward to FC
+      await CwTasksPage.enterText(
+        '#ACTION_FORWARD_TO_FC-comment',
+        'Forward to Forestry Commission'
+      )
+      await CwTasksPage.clickButtonByText('Forward to FC')
+      await browser.pause(2000)
+      await analyseAccessibility('WMP Forestry Commission Review Page')
+
+      // FC Review task
+      const fcReviewLink = await $('a[href*="TASK_FC_REVIEW_COMPLETED"]')
+      await fcReviewLink.waitForClickable({ timeout: 10000 })
+      await fcReviewLink.scrollIntoView()
+      await fcReviewLink.click()
+      await browser.pause(2000)
+      await CwTasksPage.selectRadioByValue('STATUS_FC_REVIEW_SUCCESSFUL')
+      await CwTasksPage.enterText(
+        '#STATUS_FC_REVIEW_SUCCESSFUL-comment',
+        'The Forestry Commission has completed their review of the application'
+      )
+      await analyseAccessibility('WMP FC Review Task Page')
+      await CwTasksPage.clickButtonByText('Confirm')
+      await browser.pause(2000)
+
+      // FC Approve
+      await CwTasksPage.enterText(
+        '#ACTION_FC_APPROVE-comment',
+        "Forestry Commission's decision approved"
+      )
+      await CwTasksPage.clickButtonByText('FC Approve')
+      await browser.pause(2000)
+
+      // Revisit all tabs after FC approval
+      await CWApplicationPage.clickLinkByText('Application')
+      await browser.pause(2000)
+      await analyseAccessibility('WMP Application Tab After FC Approval')
+
+      await CWApplicationPage.clickLinkByText('Timeline')
+      await browser.pause(2000)
+      await analyseAccessibility('WMP Timeline Tab After FC Approval')
+
+      await CWApplicationPage.clickLinkByText('Notes')
+      await browser.pause(2000)
+      await analyseAccessibility('WMP Notes Tab After FC Approval')
+
+      await CWApplicationPage.clickLinkByText('Agreements')
+      await browser.pause(2000)
+      await analyseAccessibility('WMP Agreements Tab After FC Approval')
 
       await browser.takeScreenshot()
     })

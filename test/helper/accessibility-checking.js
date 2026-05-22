@@ -55,6 +55,7 @@ export async function analyseAccessibility(suffix) {
 export function generateAccessibilityReports(filePrefix) {
   const categoryReport = wcagChecker.getHtmlReportByCategory()
   const guidelineReport = wcagChecker.getHtmlReportByGuideLine()
+  const jsonReport = wcagChecker.getJsonReport()
 
   if (categoryReport && categoryReport.length > 0) {
     fs.writeFileSync(
@@ -70,6 +71,16 @@ export function generateAccessibilityReports(filePrefix) {
     fs.writeFileSync(
       path.join(reportDirectory, `${filePrefix}-accessibility-guideline.html`),
       guidelineReport,
+      (err) => {
+        if (err) throw err
+      }
+    )
+  }
+
+  if (jsonReport && jsonReport.length > 0) {
+    fs.writeFileSync(
+      path.join(reportDirectory, `${filePrefix}-accessibility-full.json`),
+      jsonReport,
       (err) => {
         if (err) throw err
       }
