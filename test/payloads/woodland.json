@@ -19,8 +19,23 @@
     "intendToApplyHigherTier": false,
     "includedAllEligibleWoodland": true,
     "applicationConfirmation": true,
-    "totalHectaresAppliedFor": 10,
     "totalHectaresForSelectedParcels": 10,
+    "totalAgreementPaymentPence": 166200,
+    "payments": {
+      "agreement": [
+        {
+          "code": "PA3",
+          "description": "Woodland management plan",
+          "activePaymentTier": 2,
+          "quantityInActiveTier": 5.4,
+          "activeTierRatePence": 3000,
+          "activeTierFlatRatePence": 150000,
+          "quantity": 55.4,
+          "agreementTotalPence": 166200,
+          "unit": "ha"
+        }
+      ]
+    },
     "hectaresTenOrOverYearsOld": 6,
     "hectaresUnderTenYearsOld": 4,
     "woodlandName": "Test Woodland",
