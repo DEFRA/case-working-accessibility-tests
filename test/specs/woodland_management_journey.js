@@ -71,32 +71,29 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       // CW Workflow: Start reviewing the application
       await CwTasksPage.clickButtonByText('Start')
       await browser.pause(2000)
+      await analyseAccessibility('WMP Start Reviewing Application Page')
       await CwTasksPage.enterText(
         '#ACTION_APPROVE_APPLICATION-comment',
         'started reviewing the application'
       )
-      await CwTasksPage.clickButtonByText('Approve')
+      await CwTasksPage.clickButtonByText('Continue')
+      await browser.pause(2000)
+      await analyseAccessibility('WMP Agreement Generating Confirmation Page')
+
+      // Click Refresh page to return to the case
+      await CwTasksPage.clickLinkByText('Refresh page')
       await browser.pause(2000)
 
-      // Wait for status: Agreement Generating
-      await $('p*=Agreement Generating').waitForDisplayed({ timeout: 10000 })
-      await analyseAccessibility('WMP Agreement Generating Status')
-
-      // Refresh until status changes to: Agreement ready for applicant
-      await browser.pause(5000)
-      await browser.refresh()
+      // Wait for status: Agreement ready for applicant
       await $('p*=Agreement ready for applicant').waitForDisplayed({
         timeout: 15000
       })
       await analyseAccessibility('WMP Agreement Ready for Applicant Status')
 
-      // Send agreement to applicant
-      const sendAgreementLink = await $(
-        'a[href*="TASK_AGREEMENT_SENT_TO_APPLICANT"]'
+      // Notify customer that draft agreement is ready
+      await CwTasksPage.clickLinkByText(
+        'Notify customer that draft agreement is ready'
       )
-      await sendAgreementLink.waitForClickable({ timeout: 10000 })
-      await sendAgreementLink.scrollIntoView()
-      await sendAgreementLink.click()
       await browser.pause(2000)
       await CwTasksPage.selectRadioByValue('STATUS_AGREEMENT_SENT_TO_APPLICANT')
       await CwTasksPage.enterText(
@@ -106,6 +103,31 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       await analyseAccessibility('WMP Agreement Sent to Applicant Task Page')
       await CwTasksPage.clickButtonByText('Confirm')
       await browser.pause(2000)
+      await analyseAccessibility('WMP Confirm Agreement Sent Audit Page')
+      await CwTasksPage.enterText(
+        '#ACTION_CONFIRM_AGREEMENT_SENT-comment',
+        'Confirming agreement has been sent to the applicant'
+      )
+      await CwTasksPage.clickButtonByText('Confirm agreement sent')
+      await browser.pause(2000)
+      await analyseAccessibility('WMP Agreement Sent Status Page')
+
+      // Send agreement to applicant
+      // const sendAgreementLink = await $(
+      //   'a[href*="TASK_AGREEMENT_SENT_TO_APPLICANT"]'
+      // )
+      // await sendAgreementLink.waitForClickable({ timeout: 10000 })
+      // await sendAgreementLink.scrollIntoView()
+      // await sendAgreementLink.click()
+      // await browser.pause(2000)
+      // await CwTasksPage.selectRadioByValue('STATUS_AGREEMENT_SENT_TO_APPLICANT')
+      // await CwTasksPage.enterText(
+      //   '#STATUS_AGREEMENT_SENT_TO_APPLICANT-comment',
+      //   'The agreement has been sent to the applicant'
+      // )
+      // await analyseAccessibility('WMP Agreement Sent to Applicant Task Page')
+      // await CwTasksPage.clickButtonByText('Confirm')
+      // await browser.pause(2000)
 
       // Application tab
       await CWApplicationPage.clickLinkByText('Application')
@@ -159,17 +181,14 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       await browser.url(browser.options.cwUrl)
       await CWHomePage.clickLinkByText(appRefNum)
       await browser.pause(3000)
-      await $('p*=Ready to forward to Forestry Commission').waitForDisplayed({
-        timeout: 15000
-      })
-      await analyseAccessibility('WMP Ready to Forward to FC Status')
+      // await $('p*=Ready to forward to Forestry Commission').waitForDisplayed({
+      //   timeout: 15000
+      // })
+      await analyseAccessibility('Agreement accepted')
       await browser.pause(2000)
 
       // Create CRM record task
-      const crmRecordLink = await $('a[href*="TASK_CREATE_CRM_RECORD"]')
-      await crmRecordLink.waitForClickable({ timeout: 10000 })
-      await crmRecordLink.scrollIntoView()
-      await crmRecordLink.click()
+      await CwTasksPage.clickLinkByText('Create CRM record')
       await browser.pause(2000)
       await CwTasksPage.selectRadioByValue('STATUS_CRM_RECORD_CREATED')
       await CwTasksPage.enterText(
@@ -179,21 +198,21 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       await analyseAccessibility('WMP Create CRM Record Task Page')
       await CwTasksPage.clickButtonByText('Confirm')
       await browser.pause(2000)
+      await analyseAccessibility('WMP Forward to FC Page')
 
       // Forward to FC
       await CwTasksPage.enterText(
         '#ACTION_FORWARD_TO_FC-comment',
         'Forward to Forestry Commission'
       )
-      await CwTasksPage.clickButtonByText('Forward to FC')
+      await CwTasksPage.clickButtonByText(
+        'Forestry Commission has been notified'
+      )
       await browser.pause(2000)
       await analyseAccessibility('WMP Forestry Commission Review Page')
 
       // FC Review task
-      const fcReviewLink = await $('a[href*="TASK_FC_REVIEW_COMPLETED"]')
-      await fcReviewLink.waitForClickable({ timeout: 10000 })
-      await fcReviewLink.scrollIntoView()
-      await fcReviewLink.click()
+      await CwTasksPage.clickLinkByText('Record Forestry Commission outcome')
       await browser.pause(2000)
       await CwTasksPage.selectRadioByValue('STATUS_FC_REVIEW_SUCCESSFUL')
       await CwTasksPage.enterText(
@@ -205,11 +224,12 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       await browser.pause(2000)
 
       // FC Approve
+      await analyseAccessibility('WMP FC Approve Page')
       await CwTasksPage.enterText(
-        '#ACTION_FC_APPROVE-comment',
+        '#ACTION_APPROVE_FC_REVIEW-comment',
         "Forestry Commission's decision approved"
       )
-      await CwTasksPage.clickButtonByText('FC Approve')
+      await CwTasksPage.clickButtonByText('Approve Forestry Commission review')
       await browser.pause(2000)
 
       // Revisit all tabs after FC approval
