@@ -6,7 +6,8 @@
     "crn": "1102838829",
     "defraId": "DEFRA0001",
     "createdAt": "{{current_datetime}}",
-    "submittedAt": "{{current_datetime}}"
+    "submittedAt": "{{current_datetime}}",
+    "configVersion": "1.0.3"
   },
   "answers": {
     "businessDetailsUpToDate": true,

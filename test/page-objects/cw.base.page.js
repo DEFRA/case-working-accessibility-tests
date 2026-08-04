@@ -51,6 +51,11 @@ export default class CwBasePage {
     await radioButton.click()
   }
 
+  async selectGenerateAgreementRadio() {
+    const radioButton = await $('input[value="ACTION_APPROVE_APPLICATION"]')
+    await radioButton.click()
+  }
+
   async alertText() {
     const alertBox = await $('div[role="alert"]')
     return await alertBox.getText()
