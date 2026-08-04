@@ -72,11 +72,10 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       await CwTasksPage.clickButtonByText('Start')
       await browser.pause(2000)
       await analyseAccessibility('WMP Start Reviewing Application Page')
-      await CwTasksPage.enterText(
-        '#ACTION_APPROVE_APPLICATION-comment',
-        'started reviewing the application'
-      )
-      await CwTasksPage.clickButtonByText('Continue')
+
+      await CwTasksPage.selectGenerateAgreementRadio()
+      await CwTasksPage.clickButtonByText('Confirm')
+
       await browser.pause(2000)
       await analyseAccessibility('WMP Agreement Generating Confirmation Page')
 
@@ -111,23 +110,6 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       await CwTasksPage.clickButtonByText('Confirm agreement sent')
       await browser.pause(2000)
       await analyseAccessibility('WMP Agreement Sent Status Page')
-
-      // Send agreement to applicant
-      // const sendAgreementLink = await $(
-      //   'a[href*="TASK_AGREEMENT_SENT_TO_APPLICANT"]'
-      // )
-      // await sendAgreementLink.waitForClickable({ timeout: 10000 })
-      // await sendAgreementLink.scrollIntoView()
-      // await sendAgreementLink.click()
-      // await browser.pause(2000)
-      // await CwTasksPage.selectRadioByValue('STATUS_AGREEMENT_SENT_TO_APPLICANT')
-      // await CwTasksPage.enterText(
-      //   '#STATUS_AGREEMENT_SENT_TO_APPLICANT-comment',
-      //   'The agreement has been sent to the applicant'
-      // )
-      // await analyseAccessibility('WMP Agreement Sent to Applicant Task Page')
-      // await CwTasksPage.clickButtonByText('Confirm')
-      // await browser.pause(2000)
 
       // Application tab
       await CWApplicationPage.clickLinkByText('Application')
