@@ -129,6 +129,34 @@ describe('SFI Application E2E Tests', () => {
       expect(agreementsPageTitle).toEqual('Customer Agreement Review')
       await analyseAccessibility('CW After Agreement Review')
 
+      await CwTasksPage.clickLinkByText('Tasks')
+      await browser.pause(2000)
+
+      // Return to customer functionality
+      // await $('input[value="RETURN_TO_CUSTOMER"]').waitForDisplayed({ timeout: 10000 })
+      await CwTasksPage.selectRadioByValue('RETURN_TO_CUSTOMER')
+      await CwTasksPage.enterText(
+        '#RETURN_TO_CUSTOMER-comment',
+        'this is a reason for returning to customer.'
+      )
+      await CwTasksPage.selectRadioByValue('RETURN_TO_CUSTOMER')
+
+      await CwTasksPage.clickButtonByText('Confirm')
+      await browser.pause(2000)
+      await analyseAccessibility('CW Return To Customer Page')
+
+      await CwTasksPage.clickLinkByText('Cancel and return')
+      await browser.pause(2000)
+
+      // Withdraw functionality
+      await CwTasksPage.selectRadioByValue('WITHDRAW_APPLICATION')
+      await CwTasksPage.enterText(
+        '#WITHDRAW_APPLICATION-comment',
+        'explanation for auditing purposes.'
+      )
+      await CwTasksPage.selectRadioByValue('WITHDRAW_APPLICATION')
+      await analyseAccessibility('CW Withdraw Application Page')
+
       await CwTasksPage.clickLinkByText('Agreements')
 
       const agreementIdInitialJourney =

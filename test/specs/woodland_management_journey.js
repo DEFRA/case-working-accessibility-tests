@@ -169,6 +169,14 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       await analyseAccessibility('Agreement accepted')
       await browser.pause(2000)
 
+      // Add SitiAgri Reference task
+      await CwTasksPage.clickLinkByText('Add SitiAgri Reference')
+      await browser.pause(2000)
+      await CwTasksPage.enterText('#value', '11112222')
+      await analyseAccessibility('WMP Add SitiAgri Reference Task Page')
+      await CwTasksPage.clickButtonByText('Confirm')
+      await browser.pause(2000)
+
       // Create CRM record task
       await CwTasksPage.clickLinkByText('Create CRM record')
       await browser.pause(2000)
