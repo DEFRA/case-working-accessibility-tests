@@ -140,7 +140,7 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       // Agreements - Farmer logs in and accepts offer
       await browser.url(browser.options.agreementsUrl)
       await browser.pause(3000)
-      await LoginPage.login('1102838829', process.env.DEFRA_ID_USER_PASSWORD)
+      await LoginPage.login('1106298365', process.env.DEFRA_ID_USER_PASSWORD)
       await browser.pause(3000)
       await browser.url(
         browser.options.agreementsUrl + agreementIdInitialJourney
