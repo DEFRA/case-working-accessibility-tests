@@ -45,6 +45,7 @@ export const config = {
           '--headless',
           '--disable-gpu',
           '--window-size=1920,1080',
+          '--remote-debugging-port=9222',
           '--enable-features=NetworkService,NetworkServiceInProcess',
           '--password-store=basic',
           '--use-mock-keychain',

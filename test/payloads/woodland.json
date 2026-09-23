@@ -1,9 +1,9 @@
 {
   "metadata": {
     "clientRef": "{{random_client_ref}}",
-    "sbi": "888000001",
+    "sbi": "888000002",
     "frn": "{{random_frn}}",
-    "crn": "9990000001",
+    "crn": "9990000002",
     "defraId": "DEFRA0001",
     "createdAt": "{{current_datetime}}",
     "submittedAt": "{{current_datetime}}",
