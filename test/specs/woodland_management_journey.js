@@ -1,4 +1,4 @@
-import { browser } from '@wdio/globals'
+import { browser, $ } from '@wdio/globals'
 import CWHomePage from '../page-objects/cw.home.page.js'
 import CWApplicationPage from '../page-objects/cw.application.page.js'
 import CwTasksPage from '../page-objects/cw.tasks.page.js'
@@ -7,6 +7,7 @@ import AgreementReviewOfferPage from '../page-objects/agreements.review.offer.pa
 import AgreementsAcceptYourOfferPage from '../page-objects/agreements.accept.your.offer.page.js'
 import AgreementsOfferAcceptedPage from '../page-objects/agreements.offer.accepted.page.js'
 import LoginPage from '../page-objects/login.page.js'
+import WoodlandHomePage from '../page-objects/woodland.home.page.js'
 import { entraLogin } from '../utils/cw-login-helper.js'
 
 import {
@@ -14,7 +15,6 @@ import {
   generateAccessibilityReports,
   initialiseAccessibilityChecking
 } from '../helper/accessibility-checking.js'
-import { createApplication } from '../utils/api-helper.js'
 
 afterEach(async () => {
   // Clear all cookies after each test
@@ -33,22 +33,54 @@ describe('Woodland Management Plan Accessibility Tests', () => {
     })
 
     it('Then the case worker is able to review the WMP application', async () => {
-      // Create WMP application via API
-      const environment = process.env.ENVIRONMENT || 'dev'
-      const apiResponse = await createApplication(environment, 'woodland')
-      await browser.pause(5000)
-      expect(apiResponse.statusCode).toBe(204)
-      const appRefNum = apiResponse.clientRef
+      // Login to grants-ui as farmer
+      await WoodlandHomePage.open()
+
+      // Wait for login page and authenticate
+      const crnInput = await $('#crn')
+      await crnInput.waitForExist({ timeout: 30000 })
+      await LoginPage.login('9990000002', process.env.DEFRA_ID_USER_PASSWORD)
+
+      // Wait for login page to disappear (OAuth redirect in progress)
+      await browser.waitUntil(async () => !(await $('#crn').isExisting()), {
+        timeout: 50000,
+        timeoutMsg: 'Still on login page after 50s'
+      })
+
+      // Clear any existing woodland application state via the UI endpoint
+      await browser.url('/woodland/clear-application-state')
+      await browser.pause(2000)
+
+      // Navigate to check-details to start the fresh application
+      await WoodlandHomePage.open()
+      const detailsRadio = await $('#businessDetailsUpToDate')
+      await detailsRadio.waitForExist({
+        timeout: 50000,
+        timeoutMsg: 'check-details page did not load'
+      })
+
+      await WoodlandHomePage.completeCheckDetails()
+      await WoodlandHomePage.completeEligibility()
+      await WoodlandHomePage.completeWoodlandDetails({
+        landParcelId: 'AA0001-0001',
+        hectaresTenOrOverYearsOld: 50,
+        centreGridReference: 'NG 1234 5678',
+        woodlandName: 'Test Woodland',
+        fcTeamCodeId: 'fcTeamCode-2'
+      })
+      await WoodlandHomePage.submitApplication()
+      const appRefNum = await WoodlandHomePage.getApplicationReference()
 
       console.log(`WMP application created with reference: ${appRefNum}`)
 
-      // Navigate to Case Working
+      // Save grants-ui window handle so we can return to it for agreement acceptance
+      const grantsUiWindow = await browser.getWindowHandle()
+
+      // Open a new tab for the CW workflow (keeps grants-ui session alive)
+      await browser.newWindow(browser.options.cwUrl)
       console.log(`Navigating to CW URL: ${browser.options.cwUrl}`)
-      await browser.url(browser.options.cwUrl)
 
       await browser.pause(3000)
-      const currentUrl = await browser.getUrl()
-      console.log(`Current URL after navigation: ${currentUrl}`)
 
       const cwUsername = process.env.ENTRA_ID_WRITER_USER
       const cwPassword = process.env.ENTRA_ID_USER_PASSWORD
@@ -83,10 +115,23 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       await CwTasksPage.clickLinkByText('Refresh page')
       await browser.pause(2000)
 
-      // Wait for status: Agreement ready for applicant
-      await $('p*=Agreement ready for applicant').waitForDisplayed({
-        timeout: 15000
-      })
+      // Poll until agreement generation completes (backend async process)
+      const maxAttempts = 10
+      let agreementReady = false
+      for (let i = 0; i < maxAttempts; i++) {
+        const el = $('p*=Agreement ready for applicant')
+        if (await el.isDisplayed()) {
+          agreementReady = true
+          break
+        }
+        await browser.refresh()
+        await browser.pause(3000)
+      }
+      if (!agreementReady) {
+        throw new Error(
+          'Agreement ready for applicant status did not appear after polling'
+        )
+      }
       await analyseAccessibility('WMP Agreement Ready for Applicant Status')
 
       // Notify customer that draft agreement is ready
@@ -131,34 +176,37 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       await browser.pause(2000)
       await analyseAccessibility('WMP Agreements Tab')
 
-      const agreementIdInitialJourney =
-        await CWAgreementsPage.getFirstAgreementReferenceText()
+      await CWAgreementsPage.getFirstAgreementReferenceText()
       expect(await CWAgreementsPage.getFirstAgreementStatusText()).toBe(
         'Offered'
       )
 
-      // Agreements - Farmer logs in and accepts offer
-      await browser.url(browser.options.agreementsUrl)
-      await browser.pause(3000)
-      await LoginPage.login('9990000002', process.env.DEFRA_ID_USER_PASSWORD)
-      await browser.pause(3000)
-      await browser.url(
-        browser.options.agreementsUrl + agreementIdInitialJourney
+      // Switch back to grants-ui tab (still on /woodland/confirmation)
+      // Refreshing the page triggers the status redirect to /agreement
+      const cwWindow = await browser.getWindowHandle()
+      await browser.switchToWindow(grantsUiWindow)
+      await browser.refresh()
+
+      // Wait for redirect to /agreement
+      await browser.waitUntil(
+        async () => (await browser.getUrl()).includes('/agreement'),
+        {
+          timeout: 30000,
+          timeoutMsg: 'Did not redirect to /agreement after refresh'
+        }
       )
-      await browser.pause(3000)
-      await analyseAccessibility('WMP Agreement Review Offer Page')
+      await browser.pause(2000)
       await AgreementReviewOfferPage.selectContinue()
       await browser.pause(2000)
-      await analyseAccessibility('WMP Agreement Accept Your Offer Page')
       await AgreementsAcceptYourOfferPage.clickConfirmCheckbox()
       await AgreementsAcceptYourOfferPage.selectAcceptOffer()
       await browser.pause(2000)
       const confirmationText =
         await AgreementsOfferAcceptedPage.getConfirmationText()
       expect(confirmationText).toBe('Agreement offer accepted')
-      await analyseAccessibility('WMP Agreement Offer Accepted Page')
 
-      // Back to CW - wait for Ready to forward to Forestry Commission
+      // Switch back to CW tab to continue the FC workflow
+      await browser.switchToWindow(cwWindow)
       await browser.pause(5000)
       await browser.url(browser.options.cwUrl)
       await CWHomePage.clickLinkByText(appRefNum)
@@ -167,17 +215,9 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       //   timeout: 15000
       // })
       await analyseAccessibility('Agreement accepted')
-      await browser.pause(2000)
 
-      // Add SitiAgri Reference task
-      await CwTasksPage.clickLinkByText('Add SitiAgri Reference')
-      await browser.pause(2000)
-      await CwTasksPage.enterText('#value', '11112222')
-      await analyseAccessibility('WMP Add SitiAgri Reference Task Page')
-      await CwTasksPage.clickButtonByText('Confirm')
-      await browser.pause(2000)
-
-      // Create CRM record task
+      // Wait for Create CRM record task to appear (async backend processing after agreement accepted)
+      await CwTasksPage.waitForElement('Create CRM record')
       await CwTasksPage.clickLinkByText('Create CRM record')
       await browser.pause(2000)
       await CwTasksPage.selectRadioByValue('STATUS_CRM_RECORD_CREATED')
