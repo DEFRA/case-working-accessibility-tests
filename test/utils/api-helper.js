@@ -1,7 +1,44 @@
 import fs from 'fs/promises'
 import Wreck from '@hapi/wreck'
+import { browser } from '@wdio/globals'
 
 export let generatedClientRef = ''
+
+function resolveBackendUrl() {
+  if (process.env.RUN_ENV === 'local' && process.env.ENVIRONMENT) {
+    return `https://ephemeral-protected.api.${process.env.ENVIRONMENT}.cdp-int.defra.cloud/grants-ui-backend`
+  }
+  return process.env.ENVIRONMENT
+    ? `https://grants-ui-backend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
+    : 'http://localhost:3001'
+}
+
+export async function clearWoodlandState() {
+  const sbi = '106480734'
+  const grantCode = 'woodland'
+  const backendUrl = browser.options.baseBackendUrl || resolveBackendUrl()
+  const url = `${backendUrl}/admin/test-data?sbi=${sbi}&grantCode=${grantCode}`
+
+  const headers = {
+    Authorization: `Bearer ${process.env.GRANTS_UI_BACKEND_API_TOKEN}`
+  }
+  if (
+    process.env.RUN_ENV === 'local' &&
+    process.env.GRANTS_UI_BACKEND_API_KEY
+  ) {
+    headers['x-api-key'] = process.env.GRANTS_UI_BACKEND_API_KEY
+  }
+
+  console.log(`Clearing woodland state for SBI ${sbi} via ${url}`)
+  try {
+    const response = await fetch(url, { method: 'DELETE', headers })
+    console.log(
+      `Clear state response: ${response.status} ${response.statusText}`
+    )
+  } catch (err) {
+    console.warn(`Clear woodland state failed (non-fatal): ${err.message}`)
+  }
+}
 
 export async function createApplication(
   environment,
