@@ -250,6 +250,18 @@ export const config = {
 
     // !Do Not Remove! Required for test status to show correctly in portal.
     if (results?.failed && results.failed > 0) {
+      console.log(
+        '[accessibility] Suite marked as FAILED. results.failed:',
+        results.failed
+      )
+      console.log(
+        '[accessibility] Failed suites:',
+        JSON.stringify(
+          results.suites?.filter((s) => s.failures?.length > 0) ?? results,
+          null,
+          2
+        )
+      )
       fs.writeFileSync('FAILED', JSON.stringify(results))
     }
   }
