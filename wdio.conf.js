@@ -1,4 +1,3 @@
-import fs from 'node:fs'
 import { generateAccessibilityReportIndex } from './test/helper/accessibility-checking.js'
 
 const fiveMinute = 60 * 5 * 1000
