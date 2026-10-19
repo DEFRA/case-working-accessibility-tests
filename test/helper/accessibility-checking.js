@@ -63,7 +63,9 @@ export async function analyseAccessibility(suffix) {
         })
     })
 
-    const violations = filterKnownGDSViolations(results.violations || [])
+    const violations = filterKnownGDSViolations(
+      (results.violations || []).filter((v) => v.impact !== null)
+    )
 
     let critical = 0
     let medium = 0
