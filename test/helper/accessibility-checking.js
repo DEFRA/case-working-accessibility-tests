@@ -305,9 +305,9 @@ export function generateAccessibilityReports(filePrefix) {
         return `  - ${p.suffix}: ${rules}`
       })
       .join('\n')
-    throw new Error(
-      `Accessibility violations found across ${totalPages} pages — see reports for full details.\n${violationSummary}`
-    )
+    const message = `Accessibility violations found across ${totalPages} pages — see reports for full details.\n${violationSummary}`
+    console.error(`[accessibility] ${message}`)
+    fs.writeFileSync('FAILED', message)
   }
 }
 
