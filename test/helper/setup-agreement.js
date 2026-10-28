@@ -42,9 +42,9 @@ export async function setupAgreement({ sbi, frn, agreementName, clientRef }) {
               line3: null,
               line4: null,
               line5: null,
-              street: 'BRIDGE ROAD',
-              city: 'GRIMSBY',
-              postalCode: 'DY13 0UY'
+              street: 'Test Lane',
+              city: 'Exampleton',
+              postalCode: 'ZZ99 5ZZ'
             }
           },
           customer: {
@@ -60,8 +60,8 @@ export async function setupAgreement({ sbi, frn, agreementName, clientRef }) {
         application: {
           parcel: [
             {
-              sheetId: 'SK0971',
-              parcelId: '7555',
+              sheetId: 'AA0108',
+              parcelId: '0114',
               area: {
                 unit: 'ha',
                 quantity: 5.2182
@@ -88,8 +88,8 @@ export async function setupAgreement({ sbi, frn, agreementName, clientRef }) {
               ]
             },
             {
-              sheetId: 'SK0971',
-              parcelId: '9194',
+              sheetId: 'AA0108',
+              parcelId: '0116',
               area: {
                 unit: 'ha',
                 quantity: 2.1703
@@ -121,8 +121,8 @@ export async function setupAgreement({ sbi, frn, agreementName, clientRef }) {
         payments: {
           parcel: [
             {
-              sheetId: 'SK0971',
-              parcelId: '7555',
+              sheetId: 'AA0108',
+              parcelId: '0114',
               area: {
                 unit: 'ha',
                 quantity: 5.2182
@@ -161,8 +161,8 @@ export async function setupAgreement({ sbi, frn, agreementName, clientRef }) {
               ]
             },
             {
-              sheetId: 'SK0971',
-              parcelId: '9194',
+              sheetId: 'AA0108',
+              parcelId: '0116',
               area: {
                 unit: 'ha',
                 quantity: 2.1703

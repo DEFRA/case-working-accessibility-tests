@@ -62,10 +62,10 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       await WoodlandHomePage.completeCheckDetails()
       await WoodlandHomePage.completeEligibility()
       await WoodlandHomePage.completeWoodlandDetails({
-        landParcelId: 'NT8701-9412',
+        landParcelId: process.env.WOODLAND_TEST_LAND_PARCEL || 'AA0001-0001',
         hectaresTenOrOverYearsOld: 50,
-        centreGridReference: 'SP 4178 2432',
-        woodlandName: 'Ashbrook WD',
+        centreGridReference: 'NG 1234 5678',
+        woodlandName: 'Test Woodland',
         fcTeamCodeId: 'fcTeamCode-2'
       })
       await WoodlandHomePage.submitApplication()

@@ -40,11 +40,11 @@
     "hectaresTenOrOverYearsOld": 6,
     "hectaresUnderTenYearsOld": 4,
     "woodlandName": "Test Woodland",
-    "centreGridReference": "SK512347",
+    "centreGridReference": "NG12345678",
     "fcTeamCode": "SOUTH_WEST",
     "landParcels": [
       {
-        "parcelId": "NT8701-9412",
+        "parcelId": "AA0001-0001",
         "areaHa": 10.0
       }
     ],
@@ -60,9 +60,9 @@
           "line3": null,
           "line4": null,
           "line5": null,
-          "street": "BRIDGE ROAD",
-          "city": "GRIMSBY",
-          "postalCode": "DY13 0UY"
+          "street": "Test Lane",
+          "city": "Exampleton",
+          "postalCode": "ZZ99 5ZZ"
         }
       },
       "customer": {
