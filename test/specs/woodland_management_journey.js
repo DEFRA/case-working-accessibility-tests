@@ -62,7 +62,7 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       await WoodlandHomePage.completeCheckDetails()
       await WoodlandHomePage.completeEligibility()
       await WoodlandHomePage.completeWoodlandDetails({
-        landParcelId: 'AA0001-0001',
+        landParcelId: process.env.WOODLAND_TEST_LAND_PARCEL || 'AA0001-0001',
         hectaresTenOrOverYearsOld: 50,
         centreGridReference: 'NG 1234 5678',
         woodlandName: 'Test Woodland',
