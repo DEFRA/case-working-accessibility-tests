@@ -14,7 +14,7 @@ function resolveBackendUrl() {
 }
 
 export async function clearWoodlandState() {
-  const sbi = '106480734'
+  const sbi = '888000002'
   const grantCode = 'woodland'
   const backendUrl = browser.options.baseBackendUrl || resolveBackendUrl()
   const url = `${backendUrl}/admin/test-data?sbi=${sbi}&grantCode=${grantCode}`

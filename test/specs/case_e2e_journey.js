@@ -52,7 +52,6 @@ describe('SFI Application E2E Tests', () => {
 
       const cwUsername = process.env.ENTRA_ID_WRITER_USER
       const cwPassword = process.env.ENTRA_ID_USER_PASSWORD
-      console.log(`Attempting login with username: ${cwUsername}`)
       await entraLogin(cwUsername, cwPassword)
       const isReferenceInTable = await CWHomePage.waitUntilVisible(appRefNum)
       await expect(isReferenceInTable).toBe(true)

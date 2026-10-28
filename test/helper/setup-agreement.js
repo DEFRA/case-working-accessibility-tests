@@ -17,7 +17,7 @@ export async function setupAgreement({ sbi, frn, agreementName, clientRef }) {
       identifiers: {
         sbi,
         frn,
-        crn: '1102838829  ',
+        crn: '9990000001',
         defraId: 'defraId'
       },
       answers: {
@@ -30,15 +30,15 @@ export async function setupAgreement({ sbi, frn, agreementName, clientRef }) {
         scheme: 'SFI',
         applicant: {
           business: {
-            reference: '1101091126',
+            reference: '9990000099',
             email: {
-              address: 'texelshirecontractingg@gnitcartnocerihslexeto.com.test'
+              address: 'test-farm@example.test'
             },
-            phone: '01234816251',
-            name: 'Texels Hire & Contracting',
+            phone: '02011223344',
+            name: 'Test Farm Holdings',
             address: {
-              line1: 'Benbrigge House',
-              line2: 'ALBRIGHTON',
+              line1: '1 Test Lane',
+              line2: 'TEST VILLAGE',
               line3: null,
               line4: null,
               line5: null,
@@ -50,9 +50,9 @@ export async function setupAgreement({ sbi, frn, agreementName, clientRef }) {
           customer: {
             name: {
               title: 'Mr',
-              first: 'Graham',
-              middle: 'Lisa',
-              last: 'Gilfoyle'
+              first: 'Test',
+              middle: 'User',
+              last: 'One'
             }
           }
         },

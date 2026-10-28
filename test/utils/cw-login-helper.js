@@ -5,7 +5,7 @@ export async function entraLogin(username, password) {
   const expectedDomain = 'fg-cw-frontend'
   await performLogin(username, password)
   await waitForAppLoadOrRetry(expectedDomain, username, password)
-  console.log(`Entra ID login successful for ${username}`)
+  console.log('Entra ID login successful')
 }
 /**
  * Performs the base login steps (enter email, password, click sign in).

@@ -1,9 +1,9 @@
 {
   "metadata": {
     "clientRef": "{{random_client_ref}}",
-    "sbi": "106480734",
+    "sbi": "888000002",
     "frn": "{{random_frn}}",
-    "crn": "1106298365",
+    "crn": "9990000002",
     "defraId": "DEFRA0001",
     "createdAt": "{{current_datetime}}",
     "submittedAt": "{{current_datetime}}",
@@ -50,13 +50,13 @@
     ],
     "applicant": {
       "business": {
-        "reference": "1101091126",
-        "email": "texelshirecontractingg@gnitcartnocerihsl.com",
-        "phone": "07713973104",
-        "name": "Texels Hire & Contracting",
+        "reference": "9990000099",
+        "email": "test-farm@example.test",
+        "phone": "02011223344",
+        "name": "Test Farm Holdings",
         "address": {
-          "line1": "Benbrigge House",
-          "line2": "ALBRIGHTON",
+          "line1": "1 Test Lane",
+          "line2": "TEST VILLAGE",
           "line3": null,
           "line4": null,
           "line5": null,
@@ -68,9 +68,9 @@
       "customer": {
         "name": {
           "title": "Mr",
-          "first": "Graham",
-          "middle": "Lisa",
-          "last": "Gilfoyle"
+          "first": "Test",
+          "middle": "User",
+          "last": "Two"
         }
       }
     }
