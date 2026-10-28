@@ -17,7 +17,7 @@ export async function setupAgreement({ sbi, frn, agreementName, clientRef }) {
       identifiers: {
         sbi,
         frn,
-        crn: '9990000001  ',
+        crn: '9990000001',
         defraId: 'defraId'
       },
       answers: {

@@ -391,7 +391,7 @@ class CwHomePage extends CwBasePage {
   async submitApplication() {
     // const environment = process.env.ENVIRONMENT || 'dev'
     await browser.url('/flying-pigs/start')
-    await this.login('9990000003', 'test-only-password')
+    await this.login(process.env.DEFRA_ID_USER || '9990000003', process.env.DEFRA_ID_USER_PASSWORD)
     // Fill out the application form following the exact flow from steps
     await this.clickStartNow()
     await this.selectPigFarmerYes()
