@@ -39,7 +39,7 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       // Wait for login page and authenticate
       const crnInput = await $('#crn')
       await crnInput.waitForExist({ timeout: 30000 })
-      await LoginPage.login('1106298365', process.env.DEFRA_ID_USER_PASSWORD)
+      await LoginPage.login('9990000002', process.env.DEFRA_ID_USER_PASSWORD)
 
       // Wait for login page to disappear (OAuth redirect in progress)
       await browser.waitUntil(async () => !(await $('#crn').isExisting()), {
