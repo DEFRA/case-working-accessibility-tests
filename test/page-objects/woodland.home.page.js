@@ -40,7 +40,6 @@ class WoodlandHomePage extends Page {
   }
 
   async completeWoodlandDetails({
-    landParcelId,
     hectaresTenOrOverYearsOld,
     centreGridReference,
     woodlandName,
@@ -50,8 +49,7 @@ class WoodlandHomePage extends Page {
     await parcelsLink.waitForClickable({ timeout: 50000 })
     await parcelsLink.click()
 
-    const safeValue = String(landParcelId).replace(/"/g, '\\"')
-    const checkbox = await $(`input[type="checkbox"][value="${safeValue}"]`)
+    const checkbox = await $('input[type="checkbox"][name="landParcels"]')
     await checkbox.waitForExist({ timeout: 50000 })
     if (!(await checkbox.isSelected())) {
       const checkboxId = await checkbox.getAttribute('id')

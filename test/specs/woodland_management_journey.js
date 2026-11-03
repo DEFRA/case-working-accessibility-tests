@@ -39,7 +39,10 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       // Wait for login page and authenticate
       const crnInput = await $('#crn')
       await crnInput.waitForExist({ timeout: 30000 })
-      await LoginPage.login('9990000002', process.env.DEFRA_ID_USER_PASSWORD)
+      await LoginPage.login(
+        process.env.DEFRA_ID_USER,
+        process.env.DEFRA_ID_USER_PASSWORD
+      )
 
       // Wait for login page to disappear (OAuth redirect in progress)
       await browser.waitUntil(async () => !(await $('#crn').isExisting()), {
@@ -62,7 +65,6 @@ describe('Woodland Management Plan Accessibility Tests', () => {
       await WoodlandHomePage.completeCheckDetails()
       await WoodlandHomePage.completeEligibility()
       await WoodlandHomePage.completeWoodlandDetails({
-        landParcelId: process.env.WOODLAND_TEST_LAND_PARCEL || 'AA0001-0001',
         hectaresTenOrOverYearsOld: 50,
         centreGridReference: 'NG 1234 5678',
         woodlandName: 'Test Woodland',
